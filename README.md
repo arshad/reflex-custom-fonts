@@ -1,19 +1,71 @@
-# Reflex
+# Reflex custom fonts
 
-## Getting Started
+An example site using custom fonts.
 
-```sh
-gatsby new site reflexjs/gatsby-starter-base
+## Installation
+
+1. Create a `static` directory at the root of your site.
+2. Place your font files and a `fonts.css` file in the `static` directory.
+
+```
+static
+└── fonts
+    ├── fonts.css
+    └── Rounded_Elegance.woff
 ```
 
-## Learn
+```css
+/* static/fonts/fonts.css */
+@font-face {
+  font-family: "Rounded";
+  src: url("Rounded_Elegance.woff") format("woff");
+}
+```
 
-Visit [https://reflexjs.org/learn](https://reflexjs.org/learn) to get started with Gatsby and Reflex.
+3. Install `gatsby-plugin-web-font-loader` and configure it as follows in `gatsby-config.js`
 
-## Blocks
+```js
+require(`dotenv`).config();
 
-Browse the blocks library at [https://reflexjs.org/library/blocks](https://reflexjs.org/library/blocks).
+module.exports = {
+  siteMetadata: {
+    title: "Reflex",
+    description: "Starter for Reflex.",
+    siteUrl: process.env.SITE_URL || "http://localhost:8000",
+  },
+  plugins: [
+    "@reflexjs/gatsby-theme-base",
+    {
+      resolve: "gatsby-plugin-web-font-loader",
+      options: {
+        custom: {
+          families: ["Rounded"],
+          urls: ["fonts/fonts.css"],
+        },
+      },
+    },
+  ],
+};
+```
 
-## License
+3. Import your custom `fonts.css` in `gatsby-browser.js`
 
-Licensed under the [MIT license](https://github.com/reflexjs/reflex/blob/master/LICENSE).
+```js
+// gatsby-browser.js
+import "./static/fonts/fonts.css";
+```
+
+4. Create `src/@reflexjs/gatsby-theme-base/theme.js` and add the font for your heading or body.
+
+```js
+// src/@reflexjs/gatsby-theme-base/theme.js
+import base from "@reflexjs/preset-base";
+
+export default {
+  preset: base,
+
+  fonts: {
+    heading: "Rounded",
+  },
+};
+```

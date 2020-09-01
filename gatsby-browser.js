@@ -1,1 +1,1 @@
-require("typeface-inter")
+import "./static/fonts/fonts.css";
